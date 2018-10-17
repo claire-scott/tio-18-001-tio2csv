@@ -6,14 +6,27 @@ Tenable IO integration, export vulnerabilities to CSV file
 
 As part of a real engagement implementation details and choices about deployment, libraries used and coding conventions would be discussed with the client the integration consultants and from experience with prior integrations. I have made a variety of assumptions in this process such as;
 
-* There are a number of CVSS scores, base and temporal for CVSS and CVSS3, normally I would consult with colleagues and then the client to ensure I am referring to the correct score, in this instance I've assumed that we're talking about the cvss base score
-* The specification lists configurability of the output file name and output file directory as two separate points. I have updated the utility to take a single argument containing either a filename or a filename with path (eg,    -o text.csv will create text.csv in the current directory,   c:\\temp\\text.csv will create it in c:\temp\text.csv). This avoids confusion when an output path is specified in the config file, and an absolute path is then provided as a command line argument.
+* There are a number of CVSS scores, base and temporal for CVSS and CVSS3, normally I would consult with colleagues and then the client to ensure I am referring to the correct score, in this instance I've assumed that those discussions have been had and it was resolved that we're talking about the cvss base score
+* The specification lists configurability of the output file name and output file directory as two separate points. I have updated the utility to take a single argument containing either a filename or a filename with path (eg,    -o text.csv will create text.csv in the current directory,   c:\\temp\\text.csv will create it in c:\temp\text.csv). This is more similar to other cli tools and avoids confusion when an output path is specified in the config file, and an absolute path is then provided as a command line argument.
+
+### Comments
+
+* Has been tested on windows and Linux with python 3.6
+* Allows command line or config file configuration
+* Has logging
+
+Based on my experience with clients requiring small changes post deployment, I've included to ability to adjust aspects of the csv generation through the configuration file
+* Allows adjusting list of fields in the file
+* Allows adjusting column header names for the file
+* Allows tweaking of CSV file generation (seperators, line termination, string quoting)
+
 
 ### Dependencies
 
 * Python 3.4+
 * [Tenable IO library (tenable_io)](https://github.com/tenable/Tenable.io-SDK-for-Python)
 * [ConfigArgParse](https://github.com/bw2/ConfigArgParse)
+* Pandas
 
 to install dependencies
 
