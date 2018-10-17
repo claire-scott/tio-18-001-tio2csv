@@ -129,22 +129,24 @@ optional arguments:
 ##### Main options
 
 * **my_config** This option allows you to specify an alternative config file instead of the default tio2csv.config
-* **output_file_name** Is the name of the CSV file which the utility will product
-* **tio_access_key** and **tio_secret_key** Is your API access key and secret from Tenable.IO. This is probably best provided via an environment variable or on the command line to protect this information.
+* **output_file_name** Is the name of the CSV file which the utility will produce.
+* **tio_access_key** and **tio_secret_key** Is your API access key and secret from Tenable.IO. This is probably best provided via an environment variable or on the command line to prevent other users reading this sensitive information from the config file.
 
 ##### Tenable.IO Export file options
-In order to export more than 5000 vulnerabilities the utility needs to use the [vulns-request-export](https://cloud.tenable.com/api#/resources/exports/vulns-request-export) API feature. This will download vulnerabilities into a temporary json file. These settings allow you to adjust the location, name and persistence
+In order to export more than 5000 vulnerabilities the utility needs to use the [vulns-request-export](https://cloud.tenable.com/api#/resources/exports/vulns-request-export) API. This will download vulnerabilities into a temporary json file(s) before processing. These settings allow you to adjust the location, name and persistence of those download file(s).
 
-* **temp_file_dir** The directory for the temporary files. This will default to the system temp directory if left undefine
+* **temp_file_dir** The directory for the temporary files. This will default to the system temp directory if left undefined
 * **temp_file_name** The file name used for the temporary files. There can be multiple files if there are enough vulnerabilities so the pattern %(chunk_id)s is used by the tenable_io library to name each file. If that pattern isn't provided the chunk number will be appended to the end of the provided file name
 * **keep_temp_files** Is a flag that will determine whether the json vulnerability files are retained after the utility is run. The default is False, but setting this value to True may be useful for debugging or archival purpouses. (Files will be over-written next time the utility is run)
 
 ##### Vulnerability filters
 
 * **vuln_state** can be used to choose whether OPEN, REOPENED and FIXED vulnerabilities are included. By default OPEN and REOPENED vulnerabilities are included
-* **vuln_severity** is used to indicate what severity levels should be included in the export, options are info, low, medium, high and critical, default is only high and critical
+* **vuln_severity** is used to indicate which severity levels should be included in the export, options are info, low, medium, high and critical. Default is high and critical
 
 ##### CSV File options
+
+As a semi-formal standard, some CSV parser implementations can have compatibility issues. These options allow the output file format to be tweaked if there are issues importing the file.
 
 * **csv_header_row** is used to choose whether columns headers are written to the CSV file, by default column headers are written
 * **csv_null_value** When a vulnerability doesn't have a value for an attribute this can be used to determine what is written to the csv file, by default this value is *null*
@@ -155,91 +157,93 @@ In order to export more than 5000 vulnerabilities the utility needs to use the [
 
 ##### CSV File specification
 
+These options allow for adjustment of the content of the csv output file. If additional fields or adjustments to column headers are required they can be changed here.
+
 * **csv_column_headers** This allows a list of column headers to be provided to override default column names, useful for providing more human readable headers. If csv_header_row is True and this value is not defined the header will use the natural column name (from the list below)
 * **csv_columns** This allows adjustment of the columns included in the CSV file. The field names represent a flattened version of the vulnerability export json object with hierarchy represented by dot notation. The list of available columns is
-..* asset.agent_uuid
-..* asset.bios_uuid
-..* asset.device_type
-..* asset.fqdn
-..* asset.hostname
-..* asset.ipv4
-..* asset.last_authenticated_results
-..* asset.operating_system
-..* asset.tracked
-..* asset.uuid
-..* first_found
-..* last_found
-..* output
-..* plugin.bid
-..* plugin.canvas_package
-..* plugin.cpe
-..* plugin.cve
-..* plugin.cvss3_base_score
-..* plugin.cvss3_temporal_score
-..* plugin.cvss3_temporal_vector.exploitability
-..* plugin.cvss3_temporal_vector.raw
-..* plugin.cvss3_temporal_vector.remediation_level
-..* plugin.cvss3_temporal_vector.report_confidence
-..* plugin.cvss3_vector.access_complexity
-..* plugin.cvss3_vector.access_vector
-..* plugin.cvss3_vector.availability_impact
-..* plugin.cvss3_vector.confidentiality_impact
-..* plugin.cvss3_vector.integrity_impact
-..* plugin.cvss3_vector.raw
-..* plugin.cvss_base_score
-..* plugin.cvss_temporal_score
-..* plugin.cvss_temporal_vector.exploitability
-..* plugin.cvss_temporal_vector.raw
-..* plugin.cvss_temporal_vector.remediation_level
-..* plugin.cvss_temporal_vector.report_confidence
-..* plugin.cvss_vector.access_complexity
-..* plugin.cvss_vector.access_vector
-..* plugin.cvss_vector.authentication
-..* plugin.cvss_vector.availability_impact
-..* plugin.cvss_vector.confidentiality_impact
-..* plugin.cvss_vector.integrity_impact
-..* plugin.cvss_vector.raw
-..* plugin.description
-..* plugin.exploit_available
-..* plugin.exploit_framework_canvas
-..* plugin.exploit_framework_core
-..* plugin.exploit_framework_metasploit
-..* plugin.exploitability_ease
-..* plugin.exploited_by_malware
-..* plugin.family
-..* plugin.family_id
-..* plugin.has_patch
-..* plugin.id
-..* plugin.in_the_news
-..* plugin.metasploit_name
-..* plugin.modification_date
-..* plugin.ms_bulletin
-..* plugin.name
-..* plugin.patch_publication_date
-..* plugin.publication_date
-..* plugin.risk_factor
-..* plugin.see_also
-..* plugin.solution
-..* plugin.stig_severity
-..* plugin.synopsis
-..* plugin.type
-..* plugin.unsupported_by_vendor
-..* plugin.version
-..* plugin.vuln_publication_date
-..* plugin.xrefs
-..* port.port
-..* port.protocol
-..* port.service
-..* scan.completed_at
-..* scan.schedule_uuid
-..* scan.started_at
-..* scan.uuid
-..* severity
-..* severity_default_id
-..* severity_id
-..* severity_modification_type
-..* state
-..* cve_list
+  * asset.agent_uuid
+  * asset.bios_uuid
+  * asset.device_type
+  * asset.fqdn
+  * asset.hostname
+  * asset.ipv4
+  * asset.last_authenticated_results
+  * asset.operating_system
+  * asset.tracked
+  * asset.uuid
+  * first_found
+  * last_found
+  * output
+  * plugin.bid
+  * plugin.canvas_package
+  * plugin.cpe
+  * plugin.cve
+  * plugin.cvss3_base_score
+  * plugin.cvss3_temporal_score
+  * plugin.cvss3_temporal_vector.exploitability
+  * plugin.cvss3_temporal_vector.raw
+  * plugin.cvss3_temporal_vector.remediation_level
+  * plugin.cvss3_temporal_vector.report_confidence
+  * plugin.cvss3_vector.access_complexity
+  * plugin.cvss3_vector.access_vector
+  * plugin.cvss3_vector.availability_impact
+  * plugin.cvss3_vector.confidentiality_impact
+  * plugin.cvss3_vector.integrity_impact
+  * plugin.cvss3_vector.raw
+  * plugin.cvss_base_score
+  * plugin.cvss_temporal_score
+  * plugin.cvss_temporal_vector.exploitability
+  * plugin.cvss_temporal_vector.raw
+  * plugin.cvss_temporal_vector.remediation_level
+  * plugin.cvss_temporal_vector.report_confidence
+  * plugin.cvss_vector.access_complexity
+  * plugin.cvss_vector.access_vector
+  * plugin.cvss_vector.authentication
+  * plugin.cvss_vector.availability_impact
+  * plugin.cvss_vector.confidentiality_impact
+  * plugin.cvss_vector.integrity_impact
+  * plugin.cvss_vector.raw
+  * plugin.description
+  * plugin.exploit_available
+  * plugin.exploit_framework_canvas
+  * plugin.exploit_framework_core
+  * plugin.exploit_framework_metasploit
+  * plugin.exploitability_ease
+  * plugin.exploited_by_malware
+  * plugin.family
+  * plugin.family_id
+  * plugin.has_patch
+  * plugin.id
+  * plugin.in_the_news
+  * plugin.metasploit_name
+  * plugin.modification_date
+  * plugin.ms_bulletin
+  * plugin.name
+  * plugin.patch_publication_date
+  * plugin.publication_date
+  * plugin.risk_factor
+  * plugin.see_also
+  * plugin.solution
+  * plugin.stig_severity
+  * plugin.synopsis
+  * plugin.type
+  * plugin.unsupported_by_vendor
+  * plugin.version
+  * plugin.vuln_publication_date
+  * plugin.xrefs
+  * port.port
+  * port.protocol
+  * port.service
+  * scan.completed_at
+  * scan.schedule_uuid
+  * scan.started_at
+  * scan.uuid
+  * severity
+  * severity_default_id
+  * severity_id
+  * severity_modification_type
+  * state
+  * cve_list
 
 #### Logging
 
