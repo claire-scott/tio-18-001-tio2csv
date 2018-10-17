@@ -146,7 +146,7 @@ In order to export more than 5000 vulnerabilities the utility needs to use the [
 
 ##### CSV File options
 
-As a semi-formal standard, some CSV parser implementations can have compatibility issues. These options allow the output file format to be tweaked if there are issues importing the file. Some fields like plugin.cve contain lists of sub-items, these will be compressed into one field with items seperated by a semi-colon.
+As a semi-formal standard, some CSV parser implementations can have compatibility issues. These options allow the output file format to be tweaked if there are issues importing the file.
 
 * **csv_header_row** is used to choose whether columns headers are written to the CSV file, by default column headers are written
 * **csv_null_value** When a vulnerability doesn't have a value for an attribute this can be used to determine what is written to the csv file, by default this value is *null*
@@ -157,7 +157,7 @@ As a semi-formal standard, some CSV parser implementations can have compatibilit
 
 ##### CSV File specification
 
-These options allow for adjustment of the content of the csv output file. If additional fields or adjustments to column headers are required they can be changed here.
+These options allow for adjustment of the content of the csv output file. If additional fields or adjustments to column headers are required they can be changed here. Some fields like plugin.cve contain lists of sub-items, these will be compressed into one field with items seperated by a semi-colon.
 
 * **csv_column_headers** This allows a list of column headers to be provided to override default column names, useful for providing more human readable headers. If csv_header_row is True and this value is not defined the header will use the natural column name (from the list below)
 * **csv_columns** This allows adjustment of the columns included in the CSV file. The field names represent a flattened version of the vulnerability export json object with hierarchy represented by dot notation. The list of available columns is
