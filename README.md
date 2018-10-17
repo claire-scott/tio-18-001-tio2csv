@@ -4,11 +4,15 @@ Tenable IO integration, export vulnerabilities to CSV file
 
 ### Dependencies
 
-* Tenable IO library (tenable_io)
-* Python 2.7+ or 3.3+
+* Python 3.4+
+* [Tenable IO library (tenable_io)](https://github.com/tenable/Tenable.io-SDK-for-Python)
+* [ConfigArgParse](https://github.com/bw2/ConfigArgParse)
+
+to install dependencies
+
+```shell
+$ pip install -r requirements.txt
+```
 
 ### Usage
 
-This tool is not yet complete and should not be used
-
-python tio2csv.py --blah
