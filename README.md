@@ -146,7 +146,7 @@ In order to export more than 5000 vulnerabilities the utility needs to use the [
 
 ##### CSV File options
 
-As a semi-formal standard, some CSV parser implementations can have compatibility issues. These options allow the output file format to be tweaked if there are issues importing the file.
+As a semi-formal standard, some CSV parser implementations can have compatibility issues. These options allow the output file format to be tweaked if there are issues importing the file. Some fields like plugin.cve contain lists of sub-items, these will be compressed into one field with items seperated by a semi-colon.
 
 * **csv_header_row** is used to choose whether columns headers are written to the CSV file, by default column headers are written
 * **csv_null_value** When a vulnerability doesn't have a value for an attribute this can be used to determine what is written to the csv file, by default this value is *null*
@@ -243,7 +243,6 @@ These options allow for adjustment of the content of the csv output file. If add
   * severity_id
   * severity_modification_type
   * state
-  * cve_list
 
 #### Logging
 
