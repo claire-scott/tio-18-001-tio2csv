@@ -12,6 +12,7 @@ As part of a real engagement implementation details and choices about deployment
 ### Comments
 
 * Has been tested on windows and Linux with python 3.6
+* Exported file loaded succesfully with MS SSIS
 * Allows command line or config file configuration
 * Has logging
 
@@ -160,6 +161,8 @@ In order to export more than 5000 vulnerabilities the utility needs to use the [
 ##### CSV File options
 
 As a semi-formal standard, some CSV parser implementations can have compatibility issues. These options allow the output file format to be tweaked if there are issues importing the file.
+
+The settings when downloaded from Github have been tested to work when importing data using Microsoft SQL Server Integration Services.
 
 * **csv_header_row** is used to choose whether columns headers are written to the CSV file, by default column headers are written
 * **csv_null_value** When a vulnerability doesn't have a value for an attribute this can be used to determine what is written to the csv file, by default this value is *null*
