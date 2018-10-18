@@ -57,16 +57,21 @@ $ python tio2csv.py -h
 ```
 
 ```
-usage: tio2csv.py [-h] [-c MY_CONFIG] -o OUTPUT_FILE_NAME
+usage: tio2csv.py [-h] 
+                  [-c MY_CONFIG] 
+                  -o OUTPUT_FILE_NAME 
+                  --tio_access_key TIO_ACCESS_KEY 
+                  --tio_secret_key TIO_SECRET_KEY
                   [--temp_file_dir TEMP_FILE_DIR]
                   [--temp_file_name TEMP_FILE_NAME]
                   [--keep_temp_files KEEP_TEMP_FILES]
-                  [--vuln_state VULN_STATE] [--vuln_severity VULN_SEVERITY]
-                  --tio_access_key TIO_ACCESS_KEY --tio_secret_key
-                  TIO_SECRET_KEY [--csv_header_row CSV_HEADER_ROW]
+                  [--vuln_state VULN_STATE] 
+                  [--vuln_severity VULN_SEVERITY]
+                  [--csv_header_row CSV_HEADER_ROW]
                   [--csv_columns CSV_COLUMNS]
                   [--csv_column_names CSV_COLUMN_NAMES]
                   [--csv_null_value CSV_NULL_VALUE]
+                  [--csv_replace_newline_character CSV_REPLACE_NEWLINE_CHARACTER]
                   [--csv_newline_character CSV_NEWLINE_CHARACTER]
                   [--csv_delimiter CSV_DELIMITER]
                   [--csv_quote_char CSV_QUOTE_CHAR]
@@ -86,6 +91,14 @@ optional arguments:
                         config file path (will load tio2csv.config by default)
   -o OUTPUT_FILE_NAME, --output_file_name OUTPUT_FILE_NAME
                         The output CSV file name
+  --tio_access_key TIO_ACCESS_KEY
+                        Tenable.io API access key (can also be provided by
+                        environment variable TIO_ACCESS_KEY) [env var:
+                        TIO_ACCESS_KEY]
+  --tio_secret_key TIO_SECRET_KEY
+                        Tenable.io API secret key (can also be provided by
+                        environment variable TIO_SECRET_KEY) [env var:
+                        TIO_SECRET_KEY]
   --temp_file_dir TEMP_FILE_DIR
                         Temporary directory for vulnerability export files
                         from Tenable.io (defaults to system temporary
@@ -103,14 +116,6 @@ optional arguments:
                         The list of vulnerability severity levels to include
                         in the export, options are [[info, low, medium, high,
                         critical] (defaults to [high,critical])
-  --tio_access_key TIO_ACCESS_KEY
-                        Tenable.io API access key (can also be provided by
-                        environment variable TIO_ACCESS_KEY) [env var:
-                        TIO_ACCESS_KEY]
-  --tio_secret_key TIO_SECRET_KEY
-                        Tenable.io API secret key (can also be provided by
-                        environment variable TIO_SECRET_KEY) [env var:
-                        TIO_SECRET_KEY]
   --csv_header_row CSV_HEADER_ROW
                         Should the csv file contain a header row with the
                         column names (defaults to True)
@@ -124,6 +129,11 @@ optional arguments:
   --csv_null_value CSV_NULL_VALUE
                         Written to csv file when a value is not found for an
                         element (defaults to NULL)
+  --csv_replace_newline_character CSV_REPLACE_NEWLINE_CHARACTER
+                        If specified, replaces newline characters in strings
+                        to ensure one text file line per row, some csv parsers
+                        dont like more than one line per data row. Will need
+                        to reverse this when parsing file
   --csv_newline_character CSV_NEWLINE_CHARACTER
                         The character used to indicate a new line in the csv
                         file
