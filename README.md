@@ -29,10 +29,16 @@ As part of a real engagement implementation details and choices about deployment
 * [ConfigArgParse](https://github.com/bw2/ConfigArgParse)
 * Pandas
 
-To install dependencies
+To install and add dependencies
 
 ```shell
-$ pip install -r requirements.txt
+$ git clone https://github.com/tj-scott/tio-18-001-tio2csv.git
+$ cd tio-18-001-tio2csv
+[Linux]
+$ pip3 install -r requirements.txt
+
+[Windows]
+C:\src\python\github\tio-18-001-tio2csv>pip install -r requirements.txt
 ```
 
 ### Usage
@@ -43,9 +49,27 @@ In order to use this utility
 * Provide an output filename through the tio2csv.config file or via the command line. The filename may be a relative or absolute path (-o vuln.csv or c:\temp\vuln.csv).
 
 ```shell
+[Linux]
 $ export TIO_ACCESS_KEY={your tio access key}
 $ export TIO_SECRET_KEY={your tio secret key}
-$ python tio2csv.py -o vulnerabilities.csv
+$ python3 tio2csv.py -o vulnerabilities.csv
+
+[Windows]
+C:\src\python\github\tio-18-001-tio2csv>set TIO_ACCESS_KEY={your tio access key}
+C:\src\python\github\tio-18-001-tio2csv>set TIO_SECRET_KEY={your tio secret key}
+C:\src\python\github\tio-18-001-tio2csv>python tio2csv.py -o vulnerabilities
+```
+
+You should see
+
+```shell
+INFO - Started
+INFO - About to export vulnerabilities from tenable.io (this may take a few moments...
+INFO - completed vulnerabilities export from tenable.io
+INFO - Loading chunk number 1
+INFO - Loading data file /tmp/vulns_1.json
+INFO - Exported 1461 vulnerabilities to /home/tscott/github/tio-18-001-tio2csv/vulnerabilities.csv
+INFO - Finished
 ```
 
 #### More advanced usage
