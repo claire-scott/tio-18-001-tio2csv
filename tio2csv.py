@@ -27,10 +27,6 @@ def collapse_list(cell):
         return cell
 
 
-# Generate unique name and file.
-#test_vulns_json_file = test_file(u'example_export_vulns_%(chunk_id)s.json')
-
-
 def get_config():
     '''
         Process configuration options.
@@ -119,6 +115,9 @@ def get_config():
         help='Written to csv file when a value is not found for an element (defaults to '
         'NULL'
         ')')
+    parser.add_argument(
+        '--csv_replace_newline_character',
+        help='If specified, replaces newline characters in strings to ensure one text file line per row, some csv parsers don''t like more than one line per data row. Will need to reverse this when parsing file')    
 
     # The following options might help if the application has trouble parsing
     # the csv file
@@ -228,6 +227,12 @@ def main():
     # replace lists of CVE with strings in semi-colon delimited format
     # requested by the spec
     df = df.applymap(collapse_list)
+
+    if options.csv_replace_newline_character is not None:
+        #df = df.replace('\n',options.csv_replace_newline_character, regex=True)
+        df = df.replace('(\n|\r|\r\n)',options.csv_replace_newline_character, regex=True)
+        
+
 
     if options.csv_header_row == True:
         if options.csv_column_names is None:

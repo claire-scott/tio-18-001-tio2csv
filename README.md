@@ -167,6 +167,7 @@ As a semi-formal standard, some CSV parser implementations can have compatibilit
 * **csv_delimiter** If a column seperator other than the default comma is required for compatibility with the parser it can be provided with this option
 * **csv_quote_character** A double quote is used to escape strings within the csv file by default but can be changed with this option
 * **csv_quote_everything** By default only string values are quoted, if this option is set to True then quotes will be used on every field. This may help the csv parser or data load, but will show numbers as strings.
+* **csv_replace_newline_character** Some CSV parsers don't like newline characters within quoted strings, (resulting in more than one text file line per data row). This option lets you specify a character to replace newline characters within strings. The application loading this data file will need to restore the newlines on load if it wants to present data properly. If nothing is specified it will not replace newline characters.
 
 ##### CSV File specification
 
