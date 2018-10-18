@@ -1,26 +1,26 @@
 # Tenable.io integration - export to CSV
 
-Tenable IO integration, export vulnerabilities to CSV file
+Example Tenable IO integration, this utility exports Tenable IO vulnerabilities to a CSV file with a degree of customisation.
+
+### Comments
+
+* Has been tested on Windows and Linux with Python 3.6
+* Exported file loaded successfully with MS SSIS
+* Allows command line or config file configuration
+* Has logging
+
+Based on my experience where clients often require small changes post deployment I have included the ability to adjust aspects of the csv generation through the configuration file
+* Allows adjusting list of fields in the file
+* Allows adjusting column header names for the file
+* Allows tweaking of CSV file generation (field separator, line termination, string quoting)
 
 ### Assumptions
 
 As part of a real engagement implementation details and choices about deployment, libraries used and coding conventions would be discussed with the client the integration consultants and from experience with prior integrations. I have made a variety of assumptions in this process such as;
 
 * There are a number of CVSS scores, base and temporal for CVSS and CVSS3, normally I would consult with colleagues and then the client to ensure I am referring to the correct score, in this instance I've assumed that those discussions have been had and it was resolved that we're talking about the cvss base score
-* The specification lists configurability of the output file name and output file directory as two separate points. I have updated the utility to take a single argument containing either a filename or a filename with path (eg,    -o text.csv will create text.csv in the current directory,   c:\\temp\\text.csv will create it in c:\temp\text.csv). This is more similar to other cli tools and avoids confusion when an output path is specified in the config file, and an absolute path is then provided as a command line argument.
-
-### Comments
-
-* Has been tested on windows and Linux with python 3.6
-* Exported file loaded succesfully with MS SSIS
-* Allows command line or config file configuration
-* Has logging
-
-Based on my experience with clients requiring small changes post deployment, I've included to ability to adjust aspects of the csv generation through the configuration file
-* Allows adjusting list of fields in the file
-* Allows adjusting column header names for the file
-* Allows tweaking of CSV file generation (seperators, line termination, string quoting)
-
+* The specification lists configurability of the output file name and output file directory as two separate points. I have updated the utility to take a single argument containing either a filename with or without the path (eg,    -o text.csv will create text.csv in the current directory,   c:\\temp\\text.csv will create it in c:\temp\text.csv). This is similar to other cli tools and avoids confusion when an output path is specified in the config file, and an absolute path is then provided as a command line argument.
+* I would normally find out what tool is being used to consume the CSV file and ensure the generated file works correctly.
 
 ### Dependencies
 
@@ -29,7 +29,7 @@ Based on my experience with clients requiring small changes post deployment, I'v
 * [ConfigArgParse](https://github.com/bw2/ConfigArgParse)
 * Pandas
 
-to install dependencies
+To install dependencies
 
 ```shell
 $ pip install -r requirements.txt
@@ -40,9 +40,11 @@ $ pip install -r requirements.txt
 #### Basic usage
 In order to use this utility
 * Provide your Tenable.io access and secret key through environment variables TIO_ACCESS_KEY and TIO_SECRET_KEY or in the tio2csv.config file. More information about acquiring API keys can be found at [Generate an API Key](https://docs.tenable.com/cloud/Content/Settings/GenerateAPIKey.htm)
-* Provide an output filename through the tio2csv.config file or on the command prompt. The filename may be a relative or absolute path (-o vuln.csv or c:\temp\vuln.csv).
+* Provide an output filename through the tio2csv.config file or via the command line. The filename may be a relative or absolute path (-o vuln.csv or c:\temp\vuln.csv).
 
 ```shell
+$ export TIO_ACCESS_KEY={your tio access key}
+$ export TIO_SECRET_KEY={your tio secret key}
 $ python tio2csv.py -o vulnerabilities.csv
 ```
 
@@ -50,7 +52,7 @@ $ python tio2csv.py -o vulnerabilities.csv
 
 The utility has number of other options and these can be provided on the command line or in the tio2csv.config configuration file
 
-A list of the confiuration options can be seen by using the -h or --help options
+A list of the configuration options can be seen by using the -h or --help options
 
 ```shell
 $ python tio2csv.py -h
@@ -172,19 +174,19 @@ In order to export more than 5000 vulnerabilities the utility needs to use the [
 
 As a semi-formal standard, some CSV parser implementations can have compatibility issues. These options allow the output file format to be tweaked if there are issues importing the file.
 
-The settings when downloaded from Github have been tested to work when importing data using Microsoft SQL Server Integration Services.
+The default settings when downloaded from Github have been tested to work when importing data using Microsoft SQL Server Integration Services.
 
 * **csv_header_row** is used to choose whether columns headers are written to the CSV file, by default column headers are written
 * **csv_null_value** When a vulnerability doesn't have a value for an attribute this can be used to determine what is written to the csv file, by default this value is *null*
-* **csv_newline_character** The character used to denote a new row in the CSV file '\n' is the default option, but if the CSV parser expects '\r\n' this can be set with this option
-* **csv_delimiter** If a column seperator other than the default comma is required for compatibility with the parser it can be provided with this option
+* **csv_newline_character** The default character used to denote a new row in the CSV file '\n', but if the CSV parser expects '\r\n' this can be set with this option
+* **csv_delimiter** If a column separator other than the default comma is required for compatibility with the parser it can be provided with this option
 * **csv_quote_character** A double quote is used to escape strings within the csv file by default but can be changed with this option
 * **csv_quote_everything** By default only string values are quoted, if this option is set to True then quotes will be used on every field. This may help the csv parser or data load, but will show numbers as strings.
 * **csv_replace_newline_character** Some CSV parsers don't like newline characters within quoted strings, (resulting in more than one text file line per data row). This option lets you specify a character to replace newline characters within strings. The application loading this data file will need to restore the newlines on load if it wants to present data properly. If nothing is specified it will not replace newline characters.
 
 ##### CSV File specification
 
-These options allow for adjustment of the content of the csv output file. If additional fields or adjustments to column headers are required they can be changed here. Some fields like plugin.cve contain lists of sub-items, these will be compressed into one field with items seperated by a semi-colon.
+These options allow for adjustment of the content of the csv output file. If additional fields or adjustments to column headers are required they can be changed here. Some fields like plugin.cve contain lists of sub-items, these will be compressed into one field with items separated by a semi-colon.
 
 * **csv_column_headers** This allows a list of column headers to be provided to override default column names, useful for providing more human readable headers. If csv_header_row is True and this value is not defined the header will use the natural column name (from the list below)
 * **csv_columns** This allows adjustment of the columns included in the CSV file. The field names represent a flattened version of the vulnerability export json object with hierarchy represented by dot notation. The list of available columns is
